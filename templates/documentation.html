@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Cattle Breed Identification System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #059669;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            padding: 2rem;
+        }
+
+        .sidebar {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-nav a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #eff6ff;
+            color: var(--primary-color);
+        }
+
+        .main-content {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 3rem;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin: 2rem 0 1rem 0;
+        }
+
+        .section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        .code-block {
+            background: var(--gray-900);
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .inline-code {
+            background: var(--gray-100);
+            color: var(--gray-800);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        .method-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 0.5rem;
+        }
+
+        .method-post {
+            background: #059669;
+            color: var(--white);
+        }
+
+        .method-get {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .parameter-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            border: 1px solid var(--gray-200);
+        }
+
+        .parameter-table th,
+        .parameter-table td {
+            border: 1px solid var(--gray-200);
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+
+        .parameter-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .parameter-table code {
+            background: var(--gray-100);
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            font-size: 0.875rem;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border: 1px solid;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1e40af;
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border-color: #fed7aa;
+            color: #92400e;
+        }
+
+        .response-example {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .response-title {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="/" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-cow"></i>
+                </div>
+                Cattle Breed Identification
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Analysis</a></li>
+                <li><a href="/demo">Breed Database</a></li>
+                <li><a href="/documentation" class="active">Documentation</a></li>
+                <li><a href="/support">Support</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h3 class="sidebar-title">Documentation</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#overview" class="active">Overview</a></li>
+                <li><a href="#authentication">Authentication</a></li>
+                <li><a href="#endpoints">API Endpoints</a></li>
+                <li><a href="#predict">POST /predict</a></li>
+                <li><a href="#feedback">POST /feedback</a></li>
+                <li><a href="#responses">Response Format</a></li>
+                <li><a href="#error-handling">Error Handling</a></li>
+                <li><a href="#rate-limits">Rate Limits</a></li>
+                <li><a href="#examples">Code Examples</a></li>
+                <li><a href="#sdk">SDKs & Libraries</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">API Documentation</h1>
+                <p class="page-subtitle">
+                    Complete API reference for the Cattle Breed Identification System
+                </p>
+            </div>
+
+            <section id="overview" class="section">
+                <h2 class="section-title">Overview</h2>
+                <p>The Cattle Breed Identification API provides AI-powered cattle breed classification services. Upload cattle images and receive detailed breed predictions with confidence scores and visual explanations.</p>
+                
+                <div class="alert alert-info">
+                    <strong>Base URL:</strong> <code>http://localhost:5000</code> (development) | <code>https://your-domain.com</code> (production)
+                </div>
+
+                <h3>Features</h3>
+                <ul>
+                    <li>Multi-breed classification (5 supported breeds)</li>
+                    <li>Visual attention heatmaps (Grad-CAM)</li>
+                    <li>Multi-modal analysis (image + traits)</li>
+                    <li>Crossbreed detection</li>
+                    <li>Real-time processing (~200ms)</li>
+                    <li>RESTful API design</li>
+                </ul>
+            </section>
+
+            <section id="authentication" class="section">
+                <h2 class="section-title">Authentication</h2>
+                <p>Currently, the API does not require authentication for development purposes. For production deployment, implement API key authentication:</p>
+                
+                <div class="code-block">
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+     -X POST https://api.cattleai.com/predict</div>
+
+                <div class="alert alert-warning">
+                    <strong>Production Note:</strong> Always implement proper authentication and rate limiting for production deployments.
+                </div>
+            </section>
+
+            <section id="endpoints" class="section">
+                <h2 class="section-title">API Endpoints</h2>
+                
+                <h3 id="predict">Breed Prediction</h3>
+                <p>
+                    <span class="method-badge method-post">POST</span>
+                    <code>/predict</code>
+                </p>
+                <p>Upload cattle image and optional traits data for breed identification.</p>
+
+                <h4>Request Parameters</h4>
+                <table class="parameter-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>image</code></td>
+                            <td>File</td>
+                            <td>Yes</td>
+                            <td>Cattle image (JPG/PNG, max 10MB)</td>
+                        </tr>
+                        <tr>
+                            <td><code>milk</code></td>
+                            <td>Float</td>
+                            <td>No</td>
+                            <td>Daily milk production (liters)</td>
+                        </tr>
+                        <tr>
+                            <td><code>weight</code></td>
+                            <td>Float</td>
+                            <td>No</td>
+                            <td>Body weight (kg)</td>
+                        </tr>
+                        <tr>
+                            <td><code>lact</code></td>
+                            <td>Float</td>
+                            <td>No</td>
+                            <td>Lactation period (months)</td>
+                        </tr>
+                        <tr>
+                            <td><code>disease</code></td>
+                            <td>Float</td>
+                            <td>No</td>
+                            <td>Disease resistance score (1-5)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request</h4>
+                <div class="code-block">
+curl -X POST http://localhost:5000/predict \
+  -F "image=@cattle.jpg" \
+  -F "milk=15.5" \
+  -F "weight=450" \
+  -F "lact=10" \
+  -F "disease=3"</div>
+
+                <h4>Response</h4>
+                <div class="response-example">
+                    <div class="response-title">Success Response (200 OK)</div>
+                    <div class="code-block">{
+  "top3": [
+    ["Holstein_Friesian", 0.87],
+    ["Jersey", 0.09], 
+    ["Gir", 0.04]
+  ],
+  "final_pred": "Holstein_Friesian",
+  "cnn_conf": 0.87,
+  "crossbreed_flag": false,
+  "heatmap_url": "/static/results/cattle_20241109_heat.jpg",
+  "silhouette_url": "/static/results/cattle_20241109_sil.jpg"
+}</div>
+                </div>
+
+                <h3 id="feedback">User Feedback</h3>
+                <p>
+                    <span class="method-badge method-post">POST</span>
+                    <code>/feedback</code>
+                </p>
+                <p>Submit user feedback to improve model performance.</p>
+
+                <h4>Request Body (JSON)</h4>
+                <table class="parameter-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>image</code></td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>Original image filename</td>
+                        </tr>
+                        <tr>
+                            <td><code>predicted_final</code></td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>AI-predicted breed name</td>
+                        </tr>
+                        <tr>
+                            <td><code>action</code></td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>"correct" or "incorrect"</td>
+                        </tr>
+                        <tr>
+                            <td><code>scores</code></td>
+                            <td>Object</td>
+                            <td>No</td>
+                            <td>Additional feedback data</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Example Request</h4>
+                <div class="code-block">
+curl -X POST http://localhost:5000/feedback \
+  -H "Content-Type: application/json" \
+  -d '{
+    "image": "cattle.jpg",
+    "predicted_final": "Holstein_Friesian", 
+    "action": "correct",
+    "scores": {
+      "confidence": 0.87,
+      "user_rating": 5
+    }
+  }'</div>
+            </section>
+
+            <section id="responses" class="section">
+                <h2 class="section-title">Response Format</h2>
+                
+                <h3>Success Response Fields</h3>
+                <table class="parameter-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>top3</code></td>
+                            <td>Array</td>
+                            <td>Top 3 breed predictions with confidence scores</td>
+                        </tr>
+                        <tr>
+                            <td><code>final_pred</code></td>
+                            <td>String</td>
+                            <td>Primary breed prediction</td>
+                        </tr>
+                        <tr>
+                            <td><code>cnn_conf</code></td>
+                            <td>Float</td>
+                            <td>Confidence score (0.0 - 1.0)</td>
+                        </tr>
+                        <tr>
+                            <td><code>crossbreed_flag</code></td>
+                            <td>Boolean</td>
+                            <td>Indicates potential crossbreed</td>
+                        </tr>
+                        <tr>
+                            <td><code>heatmap_url</code></td>
+                            <td>String</td>
+                            <td>URL to Grad-CAM heatmap visualization</td>
+                        </tr>
+                        <tr>
+                            <td><code>silhouette_url</code></td>
+                            <td>String</td>
+                            <td>URL to breed silhouette comparison</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Supported Breeds</h3>
+                <ul>
+                    <li><code>Gir</code> - Indigenous Indian breed</li>
+                    <li><code>H_F</code> - Holstein-Friesian</li>
+                    <li><code>Jersey</code> - Jersey cattle</li>
+                    <li><code>Murrah</code> - Murrah buffalo</li>
+                    <li><code>nili_ravi</code> - Nili Ravi buffalo</li>
+                </ul>
+            </section>
+
+            <section id="error-handling" class="section">
+                <h2 class="section-title">Error Handling</h2>
+                
+                <h3>HTTP Status Codes</h3>
+                <table class="parameter-table">
+                    <thead>
+                        <tr>
+                            <th>Status Code</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>200</code></td>
+                            <td>Success - Request processed successfully</td>
+                        </tr>
+                        <tr>
+                            <td><code>400</code></td>
+                            <td>Bad Request - Missing or invalid parameters</td>
+                        </tr>
+                        <tr>
+                            <td><code>413</code></td>
+                            <td>Payload Too Large - Image file exceeds size limit</td>
+                        </tr>
+                        <tr>
+                            <td><code>500</code></td>
+                            <td>Internal Server Error - Model prediction failed</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Error Response Format</h3>
+                <div class="code-block">{
+  "error": "No image uploaded",
+  "code": "MISSING_IMAGE",
+  "details": "The 'image' field is required"
+}</div>
+            </section>
+
+            <section id="rate-limits" class="section">
+                <h2 class="section-title">Rate Limits</h2>
+                <p>To ensure service stability, the following rate limits apply:</p>
+                
+                <ul>
+                    <li><strong>Development:</strong> 100 requests per hour per IP</li>
+                    <li><strong>Production:</strong> 1000 requests per hour per API key</li>
+                    <li><strong>Burst limit:</strong> 10 requests per minute</li>
+                </ul>
+
+                <div class="alert alert-info">
+                    Rate limit headers are included in all responses:
+                    <br><code>X-RateLimit-Limit: 100</code>
+                    <br><code>X-RateLimit-Remaining: 97</code>
+                    <br><code>X-RateLimit-Reset: 1699564800</code>
+                </div>
+            </section>
+
+            <section id="examples" class="section">
+                <h2 class="section-title">Code Examples</h2>
+                
+                <h3>Python</h3>
+                <div class="code-block">
+import requests
+
+# Upload image for prediction
+with open('cattle.jpg', 'rb') as f:
+    response = requests.post(
+        'http://localhost:5000/predict',
+        files={'image': f},
+        data={
+            'milk': 15.5,
+            'weight': 450,
+            'lact': 10,
+            'disease': 3
+        }
+    )
+
+result = response.json()
+print(f"Predicted breed: {result['final_pred']}")
+print(f"Confidence: {result['cnn_conf']:.2%}")
+                </div>
+
+                <h3>JavaScript</h3>
+                <div class="code-block">
+const formData = new FormData();
+formData.append('image', imageFile);
+formData.append('milk', '15.5');
+formData.append('weight', '450');
+
+fetch('http://localhost:5000/predict', {
+    method: 'POST',
+    body: formData
+})
+.then(response => response.json())
+.then(data => {
+    console.log('Prediction:', data.final_pred);
+    console.log('Confidence:', data.cnn_conf);
+});
+                </div>
+            </section>
+
+            <section id="sdk" class="section">
+                <h2 class="section-title">SDKs & Libraries</h2>
+                <p>Official SDKs and community libraries for easier integration:</p>
+                
+                <h3>Python SDK</h3>
+                <div class="code-block">pip install cattle-ai-sdk</div>
+                
+                <h3>Node.js SDK</h3>
+                <div class="code-block">npm install cattle-ai</div>
+                
+                <div class="alert alert-info">
+                    <strong>Coming Soon:</strong> Official SDKs are under development. Currently, use direct HTTP requests as shown in the examples above.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Simple scroll-to-section functionality
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+                
+                // Update active link
+                document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

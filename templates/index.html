@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cattle Breed Identification System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #059669;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .card-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        /* Upload Section */
+        .upload-area {
+            border: 2px dashed var(--gray-300);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: var(--gray-50);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background: #eff6ff;
+        }
+
+        .upload-area.drag-over {
+            border-color: var(--primary-color);
+            background: #dbeafe;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .upload-subtext {
+            font-size: 0.875rem;
+            color: var(--gray-400);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--gray-50);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results Section */
+        .results-empty {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .results-empty i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray-300);
+        }
+
+        .prediction-result {
+            margin-bottom: 2rem;
+        }
+
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .breed-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .confidence-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .confidence-high {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .confidence-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .confidence-low {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .top-predictions {
+            margin-top: 1.5rem;
+        }
+
+        .prediction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .prediction-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank {
+            width: 24px;
+            height: 24px;
+            background: var(--gray-100);
+            color: var(--gray-600);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.75rem;
+        }
+
+        .rank.first {
+            background: #fbbf24;
+            color: var(--white);
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border: 1px solid #fed7aa;
+            color: #92400e;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        /* Visualizations */
+        .visualization-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .viz-card {
+            text-align: center;
+        }
+
+        .viz-card img {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .viz-title {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .spinner {
+            border: 3px solid var(--gray-200);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Feedback Section */
+        .feedback-section {
+            border-top: 1px solid var(--gray-200);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feedback-question {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: var(--white);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--error-color);
+            color: var(--white);
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #dc2626;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .visualization-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feedback-buttons {
+                flex-direction: column;
+            }
+
+            .prediction-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .status-processing {
+            background: #eff6ff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="/" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-cow"></i>
+                </div>
+                Cattle Breed Identification
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Analysis</a></li>
+                <li><a href="/demo">Breed Database</a></li>
+                <li><a href="/documentation">Documentation</a></li>
+                <li><a href="/support">Support</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">AI-Powered Cattle Breed Analysis</h1>
+            <p class="page-subtitle">
+                Upload cattle images for accurate breed identification using advanced computer vision and machine learning technology.
+            </p>
+        </div>
+
+        <div class="main-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Image Analysis</h2>
+                    <p class="card-description">Upload a clear image of the cattle for breed identification</p>
+                </div>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Drop your image here or click to browse
+                    </div>
+                    <div class="upload-subtext">
+                        Supports JPG, PNG formats • Max 10MB
+                    </div>
+                    <input type="file" id="imageInput" class="file-input" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click()">
+                        <i class="fas fa-upload"></i>
+                        Select Image
+                    </button>
+                </div>
+
+                <div class="card-header" style="margin-top: 2rem;">
+                    <h3 class="card-title">Cattle Characteristics (Optional)</h3>
+                    <p class="card-description">Additional data to improve prediction accuracy</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="milk">
+                        <i class="fas fa-tint"></i>
+                        Daily Milk Production (Liters)
+                    </label>
+                    <input type="number" id="milk" class="form-input" step="0.1" placeholder="15.5">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="weight">
+                        <i class="fas fa-weight"></i>
+                        Body Weight (kg)
+                    </label>
+                    <input type="number" id="weight" class="form-input" step="1" placeholder="450">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="lact">
+                        <i class="fas fa-calendar-alt"></i>
+                        Lactation Period (months)
+                    </label>
+                    <input type="number" id="lact" class="form-input" step="0.1" placeholder="10">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="disease">
+                        <i class="fas fa-shield-alt"></i>
+                        Disease Resistance Score (1-5)
+                    </label>
+                    <input type="number" id="disease" class="form-input" min="1" max="5" step="0.1" placeholder="3">
+                </div>
+
+                <button class="btn btn-primary" id="predictBtn" onclick="predictBreed()" disabled style="width: 100%;">
+                    <i class="fas fa-search"></i>
+                    Analyze Breed
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Analysis Results</h2>
+                    <p class="card-description">Breed identification and confidence metrics</p>
+                </div>
+
+                <div id="resultsContent">
+                    <div class="results-empty">
+                        <i class="fas fa-chart-bar"></i>
+                        <p>Upload an image to view analysis results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let uploadedFile = null;
+        let lastPrediction = null;
+        const API_BASE = 'http://localhost:5000';
+
+        // Upload functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const imageInput = document.getElementById('imageInput');
+        const predictBtn = document.getElementById('predictBtn');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+
+        uploadArea.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (!file.type.startsWith('image/')) {
+                showAlert('Please select a valid image file.', 'error');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) {
+                showAlert('File size must be less than 10MB.', 'error');
+                return;
+            }
+
+            uploadedFile = file;
+            predictBtn.disabled = false;
+            
+            uploadArea.innerHTML = `
+                <div class="status-indicator status-success">
+                    <i class="fas fa-check"></i>
+                    Image uploaded: ${file.name}
+                </div>
+                <div style="margin-top: 1rem;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('imageInput').click()">
+                        <i class="fas fa-sync-alt"></i>
+                        Change Image
+                    </button>
+                </div>
+            `;
+        }
+
+        async function predictBreed() {
+            if (!uploadedFile) {
+                showAlert('Please upload an image first.', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', uploadedFile);
+            formData.append('milk', document.getElementById('milk').value || '0');
+            formData.append('weight', document.getElementById('weight').value || '0');
+            formData.append('lact', document.getElementById('lact').value || '0');
+            formData.append('disease', document.getElementById('disease').value || '0');
+
+            showLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/predict`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                lastPrediction = result;
+                displayResults(result);
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Analysis failed. Please ensure the server is running and try again.');
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('resultsContent').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing image...</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('resultsContent').innerHTML = `
+                <div class="alert alert-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Analysis Error</strong><br>
+                        ${message}
+                    </div>
+                </div>
+            `;
+        }
+
+        function showAlert(message, type) {
+            const alertClass = `alert-${type}`;
+            const icon = type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+            
+            const alert = document.createElement('div');
+            alert.className = `alert ${alertClass}`;
+            alert.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <div>${message}</div>
+            `;
+            
+            document.querySelector('.container').insertBefore(alert, document.querySelector('.main-grid'));
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        function displayResults(result) {
+            const crossbreedAlert = result.crossbreed_flag ? `
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Crossbreed Detected</strong><br>
+                        This animal may be a crossbreed due to low confidence scores or similar characteristics between breeds.
+                    </div>
+                </div>
+            ` : '';
+
+            const visualizations = result.heatmap_url || result.silhouette_url ? `
+                <div class="visualization-grid">
+                    ${result.heatmap_url ? `
+                        <div class="viz-card">
+                            <img src="${API_BASE}${result.heatmap_url}" alt="AI Attention Map">
+                            <div class="viz-title">AI Attention Heatmap</div>
+                        </div>
+                    ` : ''}
+                    ${result.silhouette_url ? `
+                        <div class="viz-card">
+                            <img src="${API_BASE}${result.silhouette_url}" alt="Breed Silhouette">
+                            <div class="viz-title">Breed Reference</div>
+                        </div>
+                    ` : ''}
+                </div>
+            ` : '';
+
+            document.getElementById('resultsContent').innerHTML = `
+                ${crossbreedAlert}
+                
+                <div class="prediction-result">
+                    <div class="prediction-header">
+                        <div class="breed-name">${result.final_pred}</div>
+                        <div class="confidence-badge ${getConfidenceClass(result.cnn_conf)}">
+                            ${(result.cnn_conf * 100).toFixed(1)}% Confidence
+                        </div>
+                    </div>
+                    
+                    <div class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${result.cnn_conf * 100}%"></div>
+                    </div>
+                    
+                    <div class="top-predictions">
+                        <h4 style="margin-bottom: 1rem; color: var(--gray-700);">Top Predictions</h4>
+                        ${result.top3.map((breed, index) => `
+                            <div class="prediction-item">
+                                <div style="display: flex; align-items: center;">
+                                    <div class="rank ${index === 0 ? 'first' : ''}">${index + 1}</div>
+                                    <div>${breed[0]}</div>
+                                </div>
+                                <div style="font-weight: 600; color: var(--gray-600);">
+                                    ${(breed[1] * 100).toFixed(1)}%
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                ${visualizations}
+
+                <div class="feedback-section">
+                    <div class="feedback-question">Was this analysis accurate?</div>
+                    <div class="feedback-buttons">
+                        <button class="btn btn-success" onclick="submitFeedback('correct')">
+                            <i class="fas fa-thumbs-up"></i>
+                            Correct
+                        </button>
+                        <button class="btn btn-danger" onclick="submitFeedback('incorrect')">
+                            <i class="fas fa-thumbs-down"></i>
+                            Incorrect
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getConfidenceClass(confidence) {
+            if (confidence > 0.8) return 'confidence-high';
+            if (confidence > 0.6) return 'confidence-medium';
+            return 'confidence-low';
+        }
+
+        async function submitFeedback(action) {
+            if (!lastPrediction) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/feedback`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        image: uploadedFile.name,
+                        predicted_final: lastPrediction.final_pred,
+                        action: action,
+                        scores: {
+                            confidence: lastPrediction.cnn_conf,
+                            user_feedback: action
+                        }
+                    })
+                });
+
+                if (response.ok) {
+                    showAlert('Thank you for your feedback! This helps improve our model.', 'success');
+                } else {
+                    showAlert('Unable to submit feedback. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Feedback error:', error);
+                showAlert('Network error. Please check your connection.', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

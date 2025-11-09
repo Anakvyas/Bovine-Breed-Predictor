@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cattle Breed Database - Identification System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #059669;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-description {
+            color: var(--gray-600);
+            font-size: 1.125rem;
+        }
+
+        .breeds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .breed-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .breed-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .breed-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .breed-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .breed-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .breed-type {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .breed-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-item {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-name {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .breed-description {
+            color: var(--gray-700);
+            line-height: 1.6;
+        }
+
+        .feature-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--success-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .process-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--white);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 4rem 0;
+        }
+
+        .process-section h2 {
+            color: var(--white);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .process-step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--white);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0 auto 1rem;
+        }
+
+        .process-step h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step p {
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .breeds-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .breed-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .process-section,
+            .feature-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="/" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-cow"></i>
+                </div>
+                Cattle Breed Identification
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Analysis</a></li>
+                <li><a href="/demo" class="active">Breed Database</a></li>
+                <li><a href="/documentation">Documentation</a></li>
+                <li><a href="/support">Support</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1 class="page-title">Cattle Breed Database</h1>
+            <p class="page-subtitle">
+                Comprehensive information about supported cattle breeds and our AI-powered identification system.
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Supported Breeds</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">92%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">16MB</div>
+                <div class="stat-label">Model Size</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">200ms</div>
+                <div class="stat-label">Analysis Time</div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <h2 class="section-title">Supported Cattle Breeds</h2>
+            <p class="section-description">
+                Our AI system is trained to identify these five major cattle breeds commonly found in dairy and livestock farming.
+            </p>
+        </div>
+
+        <div class="breeds-grid">
+            <div class="breed-card">
+                <div class="breed-header">
+                    <div class="breed-icon">
+                        <i class="fas fa-cow"></i>
+                    </div>
+                    <div class="breed-info">
+                        <h3>Gir</h3>
+                        <div class="breed-type">Indigenous Indian Breed</div>
+                    </div>
+                </div>
+                <div class="breed-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">5L</div>
+                        <div class="stat-name">Daily Milk</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">315kg</div>
+                        <div class="stat-name">Weight</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">326d</div>
+                        <div class="stat-name">Lactation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3.6/5</div>
+                        <div class="stat-name">Disease Resistance</div>
+                    </div>
+                </div>
+                <div class="breed-description">
+                    Native to India, Gir cattle are renowned for their exceptional heat tolerance and disease resistance. 
+                    They feature a distinctive hump and are well-adapted to tropical climates, making them ideal for 
+                    sustainable dairy farming in challenging environments.
+                </div>
+            </div>
+
+            <div class="breed-card">
+                <div class="breed-header">
+                    <div class="breed-icon">
+                        <i class="fas fa-cow"></i>
+                    </div>
+                    <div class="breed-info">
+                        <h3>Holstein-Friesian</h3>
+                        <div class="breed-type">High Production Dairy</div>
+                    </div>
+                </div>
+                <div class="breed-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">30L</div>
+                        <div class="stat-name">Daily Milk</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">630kg</div>
+                        <div class="stat-name">Weight</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">305d</div>
+                        <div class="stat-name">Lactation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">2.8/5</div>
+                        <div class="stat-name">Disease Resistance</div>
+                    </div>
+                </div>
+                <div class="breed-description">
+                    The world's highest milk-producing dairy breed. Distinguished by their classic black and white 
+                    markings, Holstein-Friesian cattle originated in the Netherlands and are now the cornerstone 
+                    of commercial dairy operations worldwide.
+                </div>
+            </div>
+
+            <div class="breed-card">
+                <div class="breed-header">
+                    <div class="breed-icon">
+                        <i class="fas fa-horse-head"></i>
+                    </div>
+                    <div class="breed-info">
+                        <h3>Murrah</h3>
+                        <div class="breed-type">Premium Buffalo Breed</div>
+                    </div>
+                </div>
+                <div class="breed-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">10L</div>
+                        <div class="stat-name">Daily Milk</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">475kg</div>
+                        <div class="stat-name">Weight</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">300d</div>
+                        <div class="stat-name">Lactation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">4.0/5</div>
+                        <div class="stat-name">Disease Resistance</div>
+                    </div>
+                </div>
+                <div class="breed-description">
+                    The most prestigious water buffalo breed from India. Murrah buffaloes are celebrated for their 
+                    exceptional milk quality with high butterfat content and excellent adaptation to hot, humid climates.
+                </div>
+            </div>
+
+            <div class="breed-card">
+                <div class="breed-header">
+                    <div class="breed-icon">
+                        <i class="fas fa-cow"></i>
+                    </div>
+                    <div class="breed-info">
+                        <h3>Jersey</h3>
+                        <div class="breed-type">Premium Quality Milk</div>
+                    </div>
+                </div>
+                <div class="breed-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">17.5L</div>
+                        <div class="stat-name">Daily Milk</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">425kg</div>
+                        <div class="stat-name">Weight</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">305d</div>
+                        <div class="stat-name">Lactation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3.0/5</div>
+                        <div class="stat-name">Disease Resistance</div>
+                    </div>
+                </div>
+                <div class="breed-description">
+                    Compact but efficient, Jersey cattle produce milk with exceptionally high butterfat content. 
+                    Originally from the Channel Island of Jersey, they are prized for their efficient feed 
+                    conversion and premium milk quality.
+                </div>
+            </div>
+
+            <div class="breed-card">
+                <div class="breed-header">
+                    <div class="breed-icon">
+                        <i class="fas fa-horse-head"></i>
+                    </div>
+                    <div class="breed-info">
+                        <h3>Nili Ravi</h3>
+                        <div class="breed-type">Adaptable Buffalo</div>
+                    </div>
+                </div>
+                <div class="breed-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">7.5L</div>
+                        <div class="stat-name">Daily Milk</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">560kg</div>
+                        <div class="stat-name">Weight</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">270d</div>
+                        <div class="stat-name">Lactation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">3.8/5</div>
+                        <div class="stat-name">Disease Resistance</div>
+                    </div>
+                </div>
+                <div class="breed-description">
+                    A hardy buffalo breed from Pakistan known for excellent adaptability and reliable milk production. 
+                    Nili Ravi buffaloes are valued for their docile temperament and strong maternal instincts.
+                </div>
+            </div>
+        </div>
+
+        <div class="process-section" id="how-it-works">
+            <div class="section-header">
+                <h2 class="section-title">How Our AI Works</h2>
+                <p class="section-description">
+                    Advanced computer vision and machine learning technology for accurate cattle breed identification.
+                </p>
+            </div>
+            
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Image Processing</h3>
+                    <p>Your cattle image is preprocessed and normalized using state-of-the-art computer vision techniques for optimal AI analysis.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Feature Extraction</h3>
+                    <p>Our EfficientNet neural network extracts thousands of visual features from the image, identifying key breed characteristics.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Multi-modal Analysis</h3>
+                    <p>The system combines visual features with cattle trait data (milk production, weight, etc.) for enhanced prediction accuracy.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Results & Visualization</h3>
+                    <p>Generate breed predictions with confidence scores and Grad-CAM heatmaps showing the AI's decision-making process.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-section" id="features">
+            <div class="section-header">
+                <h2 class="section-title">System Capabilities</h2>
+                <p class="section-description">
+                    Professional-grade features designed for agricultural professionals and researchers.
+                </p>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>High Accuracy</h3>
+                    <p>92% accuracy on validation data with robust training on thousands of professionally labeled cattle images.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Visual Explanations</h3>
+                    <p>Grad-CAM heatmaps provide transparent insights into which image regions influenced the AI's prediction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3>Crossbreed Detection</h3>
+                    <p>Automatically identifies potential crossbreeds when confidence scores indicate mixed characteristics.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Multi-modal Input</h3>
+                    <p>Combines image analysis with quantitative cattle traits for comprehensive breed assessment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Real-time Analysis</h3>
+                    <p>Fast processing with results delivered in under 200ms for immediate decision-making support.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Cross-platform</h3>
+                    <p>Responsive web interface works seamlessly across desktop, tablet, and mobile devices.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Ready to Analyze Your Cattle?</h2>
+            <p class="cta-description">
+                Upload cattle images and leverage AI-powered breed identification for your livestock management needs.
+            </p>
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-upload"></i>
+                Start Analysis
+            </a>
+        </div>
+    </main>
+</body>
+</html>

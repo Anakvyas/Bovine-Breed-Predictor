@@ -1,0 +1,77 @@
+# Image datasets and folders
+Gir/
+H_F/
+Jersey/
+Murrah/
+Nili_Ravi/
+dataset/
+duplicates_*/
+jersey_aug/
+nili_ravi_aug/
+
+# Model files
+*.pth
+best_model.pth
+
+# Results and output directories
+results/
+static/results/
+silhouettes/
+silhouettes_debug/
+silhouettes_final/
+
+# USB folders (if any)
+USB*/
+usb*/
+
+# Log files
+*.log
+crossbreed_log.csv
+feedback_log.csv
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+.env
+.envrc
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Other
+uploads/
+*.sqlite3
+
+
+venv
+.venv
+venv/
+.venv/
+env/
+.env/
+.claude/
